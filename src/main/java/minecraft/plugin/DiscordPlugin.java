@@ -1,10 +1,16 @@
 package minecraft.plugin;
 
+import org.apache.commons.io.FileUtils;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.channel.TextChannel;
 import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
 
 import static minecraft.plugin.utils.Utils.getTextChannel;
 import static minecraft.plugin.utils.Utils.readFromJson;
@@ -26,18 +32,36 @@ public class DiscordPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        getLogger().info("Start Discord Plugin!");
+        getLogger().info("Start Discord Plugin! api:" + api);
 
-        // read some data idk
+        // read some data IDK
         JSONObject data;
         JSONObject json = data = readFromJson("settings.json");
         try {
-            serverName = json.getString("server_name");
-            token = json.getString("token");
-            admin_role_id = json.getString("admin_role_id");
-            json.getString("log_channel_id"); // try to get it, so there won't be an error later
+            if (json != null) {
+                serverName = json.getString("server_name");
+                token = json.getString("token");
+                admin_role_id = json.getString("admin_role_id");
+                json.getString("log_channel_id"); // try to get it, so there won't be an error later
+            } else {
+                // create a default json file
+                InputStream is = instance.getResource("defaultSettings.json");
+                File dest = new File("settings.json");
+                if (is != null) {
+                    try {
+                        FileUtils.copyInputStreamToFile(is, dest);
+                    } catch (IOException e) {
+                        getLogger().warning("Failed to create the default json file: " + Arrays.toString(e.getStackTrace()) + "\n" + e.getMessage());
+                        getPluginLoader().disablePlugin(this);
+                        return;
+                    }
+                }
+                getLogger().warning("Created settings.json file! Please set the configs there and reload the plugin!");
+                getPluginLoader().disablePlugin(this);
+                return;
+            }
         } catch (Exception e) {
-            getLogger().warning("Failed to read to Discord Settings! Disabling plugin!");
+            getLogger().warning("Failed to read to Discord Settings! Disabling plugin!" + e);
             getPluginLoader().disablePlugin(this);
             return;
         }

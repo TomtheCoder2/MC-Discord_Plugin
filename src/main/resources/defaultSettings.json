@@ -1,0 +1,30 @@
+{
+  "token": "<token>",
+  "prefix": ".",
+  "server_name": "Test Server",
+
+  "warnings_chat_channel_id": "881300595875643452",
+  "exit_role_id": "865104128690880512",
+  "administrator_role_id": "865104128690880512",
+  "moderator_role_id": "861523420076179457",
+  "role_id": "624959361789329410",
+  "live_chat_channel_id": "890297037373997066",
+  "mapSubmissions_role_id": "865104128690880512",
+
+  "apprentice_role_id": "897820487730753576",
+  "apprentice_bot_channel" : "897914610269683713",
+
+  "appeal_role_id" : "897916101197975582",
+  "appeal_channel_id" : "897915846511460352",
+  "log_channel_id" : "928307834544853032",
+
+  "bot_channel_id": "864879809884586054",
+  "staff_bot_channel_id": "864903369188180048",
+  "admin_bot_channel_id": "864922006565552148",
+
+  "url": "jdbc:postgresql://localhost/mcData",
+  "user": "postgres",
+  "password": "pwd",
+
+  "discordInviteLink": "discord.phoenix-network.dev"
+}
