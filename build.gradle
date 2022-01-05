@@ -1,0 +1,77 @@
+apply plugin: "java"
+
+
+version '1.0'
+
+sourceCompatibility = 16
+
+repositories {
+    maven { url 'https://www.jitpack.io' }
+    maven {
+        name 'm2-dv8tion'
+        url 'https://m2.dv8tion.net/releases'
+    }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    mavenCentral()
+}
+
+ext {
+    //the build number that this plugin is made for
+}
+
+dependencies {
+    implementation 'org.jsoup:jsoup:1.14.3'
+    compileOnly 'org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT'
+//    compileOnly("com.github.fuzzbuck.Mindustry:core:$mindustryVersion")
+//    compileOnly("com.github.fuzzbuck.Mindustry:server:$mindustryVersion")
+    implementation group: 'org.json', name: 'json', version: '20210307'
+    compileOnly 'org.springframework.data:spring-data-redis:2.6.0'
+//    compileOnly 'redis.clients:jedis:3.6.3'
+    compileOnly('org.glassfish.jersey.core:jersey-client:3.0.3')
+//    compileOnly("redis.clients:jedis:3.2.0")
+//    compileOnly('org.apache.commons:commons-pool2:2.15.0')
+//    compileOnly('redis.clients:jedis:3.6.3')
+
+    implementation('org.javacord:javacord:3.3.2')
+    compileOnly('javax.ws.rs:javax.ws.rs-api:2.1.1')
+    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation("net.dv8tion:JDA:4.3.0_277")
+//    implementation 'org.postgresql:postgresql:42.2.24.jre7'
+    // http://mvnrepository.com/artifact/postgresql/postgresql
+    compileOnly group: 'postgresql', name: 'postgresql', version: '9.0-801.jdbc4'
+    runtimeOnly 'org.apache.logging.log4j:log4j-to-slf4j:2.17.0'
+    runtimeOnly 'ch.qos.logback:logback-classic:1.2.10'
+
+    // https://mvnrepository.com/artifact/com.github.kevinsawicki/http-request
+    implementation group: 'com.github.kevinsawicki', name: 'http-request', version: '6.0'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
+}
+
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    version = null
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    from {
+        configurations.runtimeClasspath.findAll { !it.name.endsWith('pom') }.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+
+}
+buildscript {
+    ext.kotlin_version = '1.6.0'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}

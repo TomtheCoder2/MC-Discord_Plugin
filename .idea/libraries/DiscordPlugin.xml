@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="DiscordPlugin">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/MC_Server/plugins/DiscordPlugin.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

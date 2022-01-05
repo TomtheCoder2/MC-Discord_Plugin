@@ -1,0 +1,6 @@
+name: Discord_Plugin
+main: minecraft.plugin.DiscordPlugin
+version: 1.17
+api-version: 1.17
+description: Bot for Discord.
+author: Nautilus
