@@ -1,4 +1,4 @@
-package commands;
+package minecraft.plugin;
 
 import minecraft.plugin.discordcommands.Command;
 import minecraft.plugin.discordcommands.Context;
@@ -62,7 +62,7 @@ public class Public {
 
         handler.registerCommand(new Command("help") {
             {
-                help = "Display all available commands and their usage.";
+                help = "Display all available minecraft.plugin.commands and their usage.";
                 usage = "[command]";
                 aliases.add("h");
             }

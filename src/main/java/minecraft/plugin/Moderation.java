@@ -1,4 +1,4 @@
-package commands;
+package minecraft.plugin;
 
 import minecraft.plugin.DiscordPlugin;
 import minecraft.plugin.discordcommands.Context;
