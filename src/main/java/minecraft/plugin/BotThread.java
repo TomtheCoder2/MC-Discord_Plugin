@@ -1,7 +1,5 @@
 package minecraft.plugin;
 
-import commands.Moderation;
-import commands.Public;
 import minecraft.plugin.discordcommands.DiscordCommands;
 import org.javacord.api.DiscordApi;
 import org.json.JSONObject;
@@ -24,7 +22,7 @@ public class BotThread extends Thread {
         this.mt = mt;
         this.data = data;
 
-        // register commands
+        // register minecraft.plugin.commands
         this.api.addMessageCreateListener(commandHandler);
         new Public().registerCommands(commandHandler);
         new Moderation(data).registerCommands(commandHandler);
@@ -32,19 +30,19 @@ public class BotThread extends Thread {
     }
 
     public void run() {
-//        Timer.schedule(ioMain.loop(), 0.5F);
-        while (this.mt.isAlive()) {
-            try {
-                Thread.sleep(60 * 1000);
-
-//                System.out.println(joinedPlayer);
-
-//                update(log_channel, api);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        api.disconnect();
+////        Timer.schedule(ioMain.loop(), 0.5F);
+//        while (this.mt.isAlive()) {
+////            try {
+////                Thread.sleep(60 * 1000);
+////
+//////                System.out.println(joinedPlayer);
+////
+//////                update(log_channel, api);
+////            } catch (Exception e) {
+////                e.printStackTrace();
+////            }
+//        }
+//
+//        api.disconnect();
     }
 }

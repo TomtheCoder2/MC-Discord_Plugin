@@ -5,9 +5,7 @@ import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;
 
 import java.awt.*;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
 
 import static minecraft.plugin.DiscordPlugin.error_log_channel;
 import static minecraft.plugin.DiscordPlugin.prefix;
@@ -15,11 +13,12 @@ import static minecraft.plugin.utils.Utils.log;
 import static minecraft.plugin.utils.Utils.tooFewArguments;
 
 /**
- * Represents a registry of commands
+ * Represents a registry of minecraft.plugin.commands
  */
 public class DiscordCommands implements MessageCreateListener {
     public HashMap<String, Command> registry = new HashMap<>();
     public HashMap<String, Command> aliasRegistry = new HashMap<>();
+    private final Set<MessageCreatedListener> messageCreatedListenerRegistry = new HashSet<>();
 
 
     public DiscordCommands() {
@@ -56,9 +55,9 @@ public class DiscordCommands implements MessageCreateListener {
      *
      * @param listener MessageCreatedListener to be run when a message is created.
      */
-//    public void registerOnMessage(MessageCreatedListener listener) {
-//        messageCreatedListenerRegistry.add(listener);
-//    }
+    public void registerOnMessage(MessageCreatedListener listener) {
+        messageCreatedListenerRegistry.add(listener);
+    }
 
     /**
      * Parse and run a command
@@ -137,9 +136,9 @@ public class DiscordCommands implements MessageCreateListener {
     }
 
     /**
-     * Get all commands in the registry
+     * Get all minecraft.plugin.commands in the registry
      *
-     * @return all commands
+     * @return all minecraft.plugin.commands
      */
     public Collection<Command> getAllCommands() {
         return registry.values();
