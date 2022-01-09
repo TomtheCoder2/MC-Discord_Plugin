@@ -1,4 +1,4 @@
-package minecraft.plugin.discordcommands;
+package minecraft.plugin.discord;
 
 import java.util.ArrayList;
 import java.util.List;

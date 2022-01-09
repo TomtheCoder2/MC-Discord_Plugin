@@ -1,4 +1,4 @@
-package minecraft.plugin.discordcommands;
+package minecraft.plugin.discord;
 
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.event.message.MessageCreateEvent;
@@ -65,6 +65,7 @@ public class DiscordCommands implements MessageCreateListener {
      * @param event Source event associated with the message
      */
     public void onMessageCreate(MessageCreateEvent event) {
+        for (MessageCreatedListener listener : messageCreatedListenerRegistry) listener.run(event);
         String message = event.getMessageContent();
 
         // check if it's a command

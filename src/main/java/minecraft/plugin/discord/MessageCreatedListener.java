@@ -1,4 +1,4 @@
-package minecraft.plugin.discordcommands;
+package minecraft.plugin.discord;
 
 import org.javacord.api.event.message.MessageCreateEvent;
 

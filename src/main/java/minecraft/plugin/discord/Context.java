@@ -1,4 +1,4 @@
-package minecraft.plugin.discordcommands;
+package minecraft.plugin.discord;
 
 import minecraft.plugin.utils.Utils;
 import org.javacord.api.entity.channel.TextChannel;

@@ -1,29 +1,47 @@
 package minecraft.plugin;
 
+import minecraft.plugin.data.PersistentPlayerData;
 import org.apache.commons.io.FileUtils;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.channel.TextChannel;
+import org.javacord.api.listener.GloballyAttachableListener;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
+import java.util.*;
+import java.util.concurrent.CountDownLatch;
 
-import static minecraft.plugin.utils.Utils.getTextChannel;
-import static minecraft.plugin.utils.Utils.readFromJson;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static minecraft.plugin.utils.Utils.*;
 
-public class DiscordPlugin extends JavaPlugin {
+public class DiscordPlugin extends JavaPlugin implements Listener {
     public static DiscordApi api;
     public static String prefix = "!";
-    public static TextChannel error_log_channel;
     public static String token = "";
     public static String serverName = "";
     public static String admin_role_id = "";
+    public static Boolean debugEnabled = false;
+    public static String discordInviteLink = "<invite link>";
+    public static HashMap<String, Player> joinedPlayers = new HashMap<>();
+    // channels
     public static TextChannel log_channel;
+    public static TextChannel error_log_channel;
+    public static TextChannel live_chat_channel;
+    // database
+    public static String url = "";
+    public static String user = "";
+    public static String password = "";
+    public static HashMap<String, PersistentPlayerData> playerDataGroup = new HashMap<>(); // uuid(), data
     private static DiscordPlugin instance;
+    BotThread bt;
+    // channels
+    ArrayList<String> channels = new ArrayList<>();
 
     public static DiscordPlugin getInstance() {
         return instance;
@@ -42,7 +60,12 @@ public class DiscordPlugin extends JavaPlugin {
                 serverName = json.getString("server_name");
                 token = json.getString("token");
                 admin_role_id = json.getString("admin_role_id");
-                json.getString("log_channel_id"); // try to get it, so there won't be an error later
+                // set database url, username and pwd
+                getFromJson(json, String.class, "url");
+                getFromJson(json, String.class, "user");
+                getFromJson(json, String.class, "password");
+                getFromJson(json, boolean.class, "debugEnabled");
+                getFromJson(json, Boolean.class, "discordInviteLink");
             } else {
                 // create a default json file
                 InputStream is = instance.getResource("defaultSettings.json");
@@ -83,21 +106,60 @@ public class DiscordPlugin extends JavaPlugin {
         getLogger().info("Open the following url to invite the bot: " + api.createBotInvite());
 
 
-        BotThread bt = new BotThread(api, Thread.currentThread(), data);
+        // create thread for discord bot
+        bt = new BotThread(api, Thread.currentThread(), data);
         bt.setDaemon(false);
         bt.start();
 
+        // add event listeners
+        new EventHandler(this);
+
         // set all channels
+        channels.add("log_channel");
+        channels.add("live_chat_channel");
+        channels.add("log_channel");
+
+        getChannelsFromJson(json, channels);
+
         error_log_channel = getTextChannel("852938976293158922");
-        log_channel = getTextChannel(json.getString("log_channel_id"));
+
+        debug("Debug enabled!");
+        try {
+            debug("Try to load LostConnectionListener class");
+            Class.forName("org.javacord.api.listener.connection.LostConnectionListener");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onDisable() {
+        log("Disabling " + DiscordPlugin.class.getName() + ", api: " + api);
         if (api != null) {
-            // Make sure to disconnect the bot when the plugin gets disabled
-            api.disconnect();
-            api = null;
+            try {
+                debug("Try to load LostConnectionListener class");
+                Class.forName("org.javacord.api.listener.connection.LostConnectionListener");
+//                Class.forName("org.javacord.core.util");
+                Class.forName("org.javacord.core.util.gateway.*");
+                CountDownLatch shutdownWaiter = new CountDownLatch(1);
+//            api.addLostConnectionListener(event -> {
+//                shutdownWaiter.countDown();
+//                debug("Lost connection to Discord");
+//            });
+                api.disconnect();
+//                Thread.sleep(10 * 1000);
+                log("Wait 10 Seconds to disconnect the javacord api...");
+//                Thread.sleep(10 * 1000);
+                shutdownWaiter.await(10, SECONDS);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Thread.currentThread().interrupt();
+            }
+            debug("api: " + api + ", listeners: " + api.getListeners());
+            for (GloballyAttachableListener i : api.getListeners().keySet()) {
+                api.removeListener(i);
+            }
+            debug("api: " + api + ", listeners: " + api.getListeners());
         }
     }
 }

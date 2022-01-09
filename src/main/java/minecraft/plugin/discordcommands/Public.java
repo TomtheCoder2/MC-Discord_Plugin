@@ -1,8 +1,8 @@
-package minecraft.plugin;
+package minecraft.plugin.discordcommands;
 
-import minecraft.plugin.discordcommands.Command;
-import minecraft.plugin.discordcommands.Context;
-import minecraft.plugin.discordcommands.DiscordCommands;
+import minecraft.plugin.discord.Command;
+import minecraft.plugin.discord.Context;
+import minecraft.plugin.discord.DiscordCommands;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.javacord.api.entity.message.embed.EmbedBuilder;

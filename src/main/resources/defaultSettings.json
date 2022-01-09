@@ -22,7 +22,7 @@
   "staff_bot_channel_id": "864903369188180048",
   "admin_bot_channel_id": "864922006565552148",
 
-  "url": "jdbc:postgresql://localhost/mcData",
+  "url": "jdbc:postgresql://localhost/mcdata",
   "user": "postgres",
   "password": "pwd",
 
