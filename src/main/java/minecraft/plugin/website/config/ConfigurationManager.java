@@ -46,7 +46,7 @@ public class ConfigurationManager {
         try {
             conf = Json.parse(sb.toString());
         } catch (IOException e) {
-            throw new HttpConfigurationException("Error parsing the confiuration file: ", e);
+            throw new HttpConfigurationException("Error parsing the configuration file: ", e);
         }
         try {
             myCurrentConfiguration = Json.fromJson(conf, Configuration.class);

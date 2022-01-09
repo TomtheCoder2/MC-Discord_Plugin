@@ -23,6 +23,7 @@ ext {
 
 dependencies {
     implementation 'org.jsoup:jsoup:1.14.3'
+    implementation 'org.junit.jupiter:junit-jupiter:5.7.0'
     compileOnly 'org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT'
 //    compileOnly("com.github.fuzzbuck.Mindustry:core:$mindustryVersion")
 //    compileOnly("com.github.fuzzbuck.Mindustry:server:$mindustryVersion")
@@ -55,14 +56,20 @@ dependencies {
     // website (for zion)
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.1'
-// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.13.1'
-// https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.32'
-// https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+    // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
     testImplementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.10'
-// https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.8.2'
+
+    // website2
+// https://mvnrepository.com/artifact/org.nanohttpd/nanohttpd
+    runtimeOnly group: 'org.nanohttpd', name: 'nanohttpd', version: '2.2.0'
+
+
 
 }
 
