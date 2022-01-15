@@ -21,6 +21,7 @@ import static minecraft.plugin.database.Utils.getData;
 import static minecraft.plugin.database.Utils.setData;
 import static minecraft.plugin.utils.Utils.Categories.moderation;
 import static minecraft.plugin.utils.Utils.*;
+import static minecraft.plugin.utils.Log.*;
 
 public record Moderation(JSONObject data) {
     public void registerCommands(DiscordCommands handler) {

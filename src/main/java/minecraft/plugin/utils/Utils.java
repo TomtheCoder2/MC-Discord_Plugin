@@ -22,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static minecraft.plugin.DiscordPlugin.*;
+import static minecraft.plugin.utils.Log.debug;
+import static minecraft.plugin.utils.Log.log;
 
 public class Utils {
     public static ArrayList<String> bannedNames = new ArrayList<>();
@@ -94,16 +96,6 @@ public class Utils {
         eb.setDescription("Player `" + name + "` not found.");
         eb.setColor(Pals.error);
         ctx.channel.sendMessage(eb);
-    }
-
-    public static void log(String message) {
-        System.out.println("[Discord_Plugin] " + message);
-    }
-
-    public static void debug(String message) {
-        if (debugEnabled) {
-            System.out.println("[Discord_Plugin] [Debug] " + message);
-        }
     }
 
     /**

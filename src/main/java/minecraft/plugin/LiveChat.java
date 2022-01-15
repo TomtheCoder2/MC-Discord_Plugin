@@ -9,7 +9,6 @@ import org.json.JSONObject;
 
 import static minecraft.plugin.DiscordPlugin.live_chat_channel;
 import static minecraft.plugin.DiscordPlugin.prefix;
-import static minecraft.plugin.utils.Utils.log;
 import static minecraft.plugin.utils.Utils.setColors;
 
 public class LiveChat {

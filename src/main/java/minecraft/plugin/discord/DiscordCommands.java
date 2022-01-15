@@ -9,7 +9,7 @@ import java.util.*;
 
 import static minecraft.plugin.DiscordPlugin.error_log_channel;
 import static minecraft.plugin.DiscordPlugin.prefix;
-import static minecraft.plugin.utils.Utils.log;
+import static minecraft.plugin.utils.Log.*;
 import static minecraft.plugin.utils.Utils.tooFewArguments;
 
 /**

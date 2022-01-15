@@ -13,7 +13,10 @@ import java.time.Instant;
 import static minecraft.plugin.DiscordPlugin.*;
 import static minecraft.plugin.database.Utils.getData;
 import static minecraft.plugin.database.Utils.setData;
-import static minecraft.plugin.utils.Utils.*;
+import static minecraft.plugin.utils.Log.debug;
+import static minecraft.plugin.utils.Log.log;
+import static minecraft.plugin.utils.Utils.bannedNames;
+import static minecraft.plugin.utils.Utils.setColors;
 
 public class EventHandler implements Listener {
     DiscordPlugin plugin = DiscordPlugin.getInstance();

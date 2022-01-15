@@ -6,8 +6,8 @@ import minecraft.plugin.data.PlayerData;
 import java.sql.*;
 
 import static minecraft.plugin.DiscordPlugin.*;
-import static minecraft.plugin.utils.Utils.debug;
-import static minecraft.plugin.utils.Utils.log;
+import static minecraft.plugin.utils.Log.debug;
+import static minecraft.plugin.utils.Log.log;
 
 /**
  * uuid

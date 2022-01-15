@@ -1,10 +1,41 @@
+buildscript {
+    ext.kotlin_version = '1.6.10'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+buildscript {
+    ext {
+        springBootVersion = '2.6.1'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+plugins {
+    id 'org.springframework.boot' version '2.5.2' apply false
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
 apply plugin: "java"
 apply plugin: 'kotlin'
+apply plugin: 'org.springframework.boot'
 
 
 version '1.0'
 
 sourceCompatibility = 16
+sourceSets.main.java.srcDirs = ["src/"]
+
 
 repositories {
     maven { url 'https://www.jitpack.io' }
@@ -18,12 +49,13 @@ repositories {
 }
 
 ext {
-    //the build number that this plugin is made for
+    springBootVersion = '2.6.1'
 }
 
 dependencies {
     implementation 'org.jsoup:jsoup:1.14.3'
-    implementation 'org.junit.jupiter:junit-jupiter:5.7.0'
+    implementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+    implementation 'junit:junit:4.13.2'
     compileOnly 'org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT'
 //    compileOnly("com.github.fuzzbuck.Mindustry:core:$mindustryVersion")
 //    compileOnly("com.github.fuzzbuck.Mindustry:server:$mindustryVersion")
@@ -58,7 +90,6 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.1'
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.13.1'
-    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.32'
     // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
     testImplementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.10'
@@ -69,8 +100,28 @@ dependencies {
 // https://mvnrepository.com/artifact/org.nanohttpd/nanohttpd
     runtimeOnly group: 'org.nanohttpd', name: 'nanohttpd', version: '2.2.0'
 
+    // spring frame work backend
+    implementation("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+//    implementation group: 'org.springframework', name: 'spring-webmvc', version: '5.1.1.RELEASE'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter', version: '2.6.2'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.6.2'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.6.2'
+    compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+    testImplementation group: 'io.rest-assured', name: 'rest-assured', version: '4.4.0'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb:2.6.2'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.6.2'
+    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.22.0'
+    implementation 'org.springframework.boot:spring-boot-configuration-processor:2.6.2'
+    annotationProcessor group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
 
 
+}
+
+dependencyManagement {
+    imports {
+        mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+    }
 }
 
 
@@ -80,21 +131,25 @@ test {
 
 jar {
     exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from files(sourceSets.main.output.classesDirs)
+    from files(sourceSets.main.output.resourcesDir)
 
-    from {
-        configurations.runtimeClasspath.findAll { !it.name.endsWith('pom') }.collect { it.isDirectory() ? it : zipTree(it) }
-    }
+    from { configurations.runtimeClasspath.collect { it.isDirectory() || !it.name.endsWithAny(".zip", ".jar") ? it : zipTree(it) } }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
-buildscript {
-    ext.kotlin_version = '1.6.10'
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
+
+//bootJar {
+//    launchScript {
+//        included = false
+//    }
+//}
+
+bootJar {
+    baseName = "SpringBoot"
+    version = '0.0.1'
 }
+
 compileKotlin {
     kotlinOptions {
         jvmTarget = "1.8"
@@ -104,4 +159,18 @@ compileTestKotlin {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+}
+
+// for the springboot for testing
+task dist(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'main.java.minecraft.plugin.springbackend.test2.SomeTesting'
+    }
+    from files(sourceSets.main.output.classesDirs)
+    from files(sourceSets.main.output.resourcesDir)
+    from { configurations.runtimeClasspath.collect { it.isDirectory() || !it.name.endsWithAny(".zip", ".jar") ? it : zipTree(it) } }
+
+    archiveFileName = "SpringBoot.jar"
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }

@@ -10,16 +10,32 @@ import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.listener.GloballyAttachableListener;
 import org.json.JSONObject;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.concurrent.CountDownLatch;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static minecraft.plugin.utils.Log.debug;
+import static minecraft.plugin.utils.Log.log;
 import static minecraft.plugin.utils.Utils.*;
 
+@SpringBootApplication(exclude = {
+        DataSourceAutoConfiguration.class,
+        MongoAutoConfiguration.class,
+        MongoDataAutoConfiguration.class
+})
+@ComponentScan("minecraft.plugin.springbackend.test2")
 public class DiscordPlugin extends JavaPlugin implements Listener {
     public static DiscordApi api;
     public static String prefix = "!";
@@ -128,6 +144,14 @@ public class DiscordPlugin extends JavaPlugin implements Listener {
             debug("Try to load LostConnectionListener class");
             Class.forName("org.javacord.api.listener.connection.LostConnectionListener");
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // start website backend
+        try {
+            SpringApplication.run(DiscordPlugin.class);
+        } catch (Exception e) {
+            log("Couldn't load website");
             e.printStackTrace();
         }
     }
