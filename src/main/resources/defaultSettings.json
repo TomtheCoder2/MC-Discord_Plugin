@@ -3,28 +3,28 @@
   "prefix": ".",
   "server_name": "Test Server",
 
-  "warnings_chat_channel_id": "881300595875643452",
-  "exit_role_id": "865104128690880512",
-  "administrator_role_id": "865104128690880512",
-  "moderator_role_id": "861523420076179457",
-  "role_id": "624959361789329410",
-  "live_chat_channel_id": "890297037373997066",
-  "mapSubmissions_role_id": "865104128690880512",
+  "warnings_chat_channel_id": "channel_id",
+  "exit_role_id": "channel_id",
+  "administrator_role_id": "channel_id",
+  "moderator_role_id": "channel_id",
+  "role_id": "channel_id",
+  "live_chat_channel_id": "channel_id",
+  "mapSubmissions_role_id": "channel_id",
 
-  "apprentice_role_id": "897820487730753576",
-  "apprentice_bot_channel" : "897914610269683713",
+  "apprentice_role_id": "channel_id",
+  "apprentice_bot_channel" : "channel_id",
 
-  "appeal_role_id" : "897916101197975582",
-  "appeal_channel_id" : "897915846511460352",
-  "log_channel_id" : "928307834544853032",
+  "appeal_role_id" : "channel_id",
+  "appeal_channel_id" : "channel_id",
+  "log_channel_id" : "channel_id",
 
-  "bot_channel_id": "864879809884586054",
-  "staff_bot_channel_id": "864903369188180048",
-  "admin_bot_channel_id": "864922006565552148",
+  "bot_channel_id": "channel_id",
+  "staff_bot_channel_id": "channel_id",
+  "admin_bot_channel_id": "channel_id",
 
   "url": "jdbc:postgresql://localhost/mcdata",
   "user": "postgres",
   "password": "pwd",
 
-  "discordInviteLink": "discord.phoenix-network.dev"
+  "discordInviteLink": "discord/<invite_link>"
 }
